@@ -11,3 +11,6 @@ unable to associate the text into columns/rows
 |-- results.csv
 ```
 
+```
+python multi_column_ocr.py --image michael_jordan_stats.png --output results.csv
+```
