@@ -37,6 +37,9 @@ ap.add_argument("-d", "--dist-thresh", type=float, default=25.0,
 # --dist-thresh, HAC will merge them.
 ap.add_argument("-s", "--min-size", type=int, default=2,
                 help="minimum cluster size (i.e., # of entries in column)")
+# I added this parameter so we can close gaps in between characters effectively
+ap.add_argument("-k", "--kernel-height", type=int, default=15,
+                help="kernel height")
 args = vars(ap.parse_args())
 
 # set a seed for our random number generator
@@ -51,7 +54,9 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 # then smooth the image using a 3x3 Gaussian blur and then apply a
 # blackhat morphological operator to find dark regions on a light
 # background
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (51, 11))
+# kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (51, 11))
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (51, args["kernel_height"]))
+
 gray = cv2.GaussianBlur(gray, (3, 3), 0)
 blackhat = cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, kernel)
 
